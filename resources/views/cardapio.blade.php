@@ -95,6 +95,48 @@
                 </div>
             </div>
             @endunless
+            <div class="container">
+            @forelse($categoria->lanches as $lanche)
+                @php($iteration=$loop->iteration)
+                @if($iteration % 2)
+                    <div class="grid-16 grupo">
+                @endif
+                    <div class="grid-7 wow fadeInLeft {{ ($iteration % 2) ? 'esquerda' : 'direita' }}" data-wow-delay="{{ 150*$iteration }}ms">
+                        <div class="cabecalho">
+                            <h2 class="nome_lanche">{{ $iteration }}. {{ $lanche->nome }}</h2>
+                            <h2 class="preco_lanche">R$ {{ substr($lanche->preco, 0, -3) }}<sup>{{ substr($lanche->preco, -3) }}</sup></h2>
+                        </div>
+                        <div class="separador"></div>
+                        <h3 class="ingredientes_lanche">{{ $lanche->ingredientes }}</h3>
+                    </div>
+                @if($iteration % 2 == 0)
+                    </div>
+                @endif
+                @if($loop->last)
+                    @if($iteration % 2 == 0)
+                        <div class="grid-16 grupo">
+                    @endif
+                        <div class="grid-7 {{ ($iteration % 2) ? 'direita' : 'esquerda' }}">
+                            <a href="#">
+                                <div class="admin">
+                                    <i class="fa fa-plus-circle"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                @endif
+            @empty
+                <div class="grid-16 grupo">
+                    <div class="grid-7 esquerda">
+                        <a href="#">
+                            <div class="admin">
+                                <i class="fa fa-plus-circle"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            @endforelse
+            </div>
         </section>
     @endforeach
 @stop

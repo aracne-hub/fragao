@@ -302,6 +302,22 @@ sup{
 	font-size: 11pt;
 }
 
+/* ADMIN */
+.admin{
+	width: 100%;
+	height: 120px;
+	background-color: #ccc;
+	border-radius: 10px;
+	color: green;
+	font-size: 50px;
+	text-align: center;
+	vertical-align: center;
+	line-height: 120px;
+}
+.admin:hover{
+	background-color: #aaa;
+}
+
 /* RESPONSIVO */
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
