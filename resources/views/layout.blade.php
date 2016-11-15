@@ -20,9 +20,9 @@
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0'">
 
     <!--<link rel="shortcut icon" href="favicon.ico">-->
-
     <link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/grid.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/animate.css">
@@ -38,6 +38,18 @@
             <div class="logo f"></div>
             <div class="logo rango"></div>
             <div class="logo frango"></div>
+            @if(Auth::check())
+                <div class="logout">
+                <a href="{{ url('/') }}"><h2>Visualizar</h2></a>
+                <a href="{{ url('/admin') }}"><h2>Editar</h2></a>
+                <a href="{{ url('/logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><h2>Logout</h2></a>
+                </div>
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            @endif
             <div class="telefone-header"><a href="#"><h2><sup>(18)</sup> 88888-8888 <i class="fa fa-whatsapp" aria-hidden="true"></i></h2></a></div>
         </div>
     </header>
@@ -73,6 +85,7 @@
 <script src="/js/plugins.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/libs/wow.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
     new WOW().init();
 </script>

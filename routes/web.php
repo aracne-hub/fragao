@@ -12,3 +12,12 @@
 */
 
 Route::get('/', 'IndexController@index');
+Route::get('/admin', 'IndexController@admin');
+
+Auth::routes();
+
+Route::get('/home', 'IndexController@admin');
+
+Route::post('/lanche/{categoria}', 'LancheController@novo');
+Route::patch('/lanche/{lanche}', 'LancheController@editar');
+Route::delete('/lanche/{lanche}', 'LancheController@deletar');
