@@ -21,3 +21,7 @@ Route::get('/home', 'IndexController@admin');
 Route::post('/lanche/{categoria}', 'LancheController@novo');
 Route::patch('/lanche/{lanche}', 'LancheController@editar');
 Route::delete('/lanche/{lanche}', 'LancheController@deletar');
+
+Route::post('/categoria', 'CategoriaController@novo');
+Route::patch('/categoria/{categoria}', 'CategoriaController@editar');
+Route::delete('/categoria/{categoria}', 'CategoriaController@deletar');

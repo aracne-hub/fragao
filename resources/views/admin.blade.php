@@ -5,20 +5,20 @@
         @foreach($categorias as $categoria)
             @if($categoria->fotol)
                 .{{ strtolower($categoria->nome) }}-image{
-            background: url("/fotos/{{ $categoria->fotol }}") bottom center;
+            background: url("/{{ $categoria->fotol }}") bottom center;
         }
         @endif
         @if($categoria->fotom)
         @media only screen and (min-width: 768px) and (max-width: 959px) {
             .{{ strtolower($categoria->nome) }}-image {
-                background: url("/fotos/{{ $categoria->fotom }}") bottom center;
+                background: url("/{{ $categoria->fotom }}") bottom center;
             }
         }
         @endif
         @if($categoria->fotos)
         @media only screen and (max-width: 767px) {
             .{{ strtolower($categoria->nome) }}-image {
-                background: url("/fotos/{{ $categoria->fotos }}") bottom center;
+                background: url("/{{ $categoria->fotos }}") bottom center;
             }
         }
         @endif
@@ -29,14 +29,14 @@
             @unless($categoria->fotol)
                 <div class="icone_lanche wow fadeInDown" data-wow-delay="{{ $loop->first ? '1300' : '1000' }}ms">
                     <div class="admin-edit">
-                        <a href="#" class="editicons">
+                        <a href="#" class="editicons" class="editicons" data-toggle="modal" data-target="#categoria-{{ $categoria->id }}">
                             <i class="fa fa-pencil fa-fx"></i>
                         </a>
-                        <a href="#" class="editicons">
+                        <a href="/categoria/{{ $categoria->id }}" class="editicons" data-method="delete" data-token="{{csrf_token()}}" data-confirm="Tem certeza que deseja apagar {{ $categoria->nome }} e todos os seus lanches?">
                             <i class="fa fa-trash fa-fx"></i>
                         </a>
                     </div>
-                    <img src="/icones/{{ $categoria->icone }}" alt="{{ $categoria->nome }}">
+                    <img src="/{{ $categoria->icone }}" alt="{{ $categoria->nome }}">
                     <h1>{{ $categoria->nome }}</h1>
                 </div>
                 @else
@@ -44,14 +44,14 @@
                         <div class="pattern">
                             <div class="icone-lanche-grande wow flipInX" data-wow-delay="1000ms">
                                 <div class="admin-edit">
-                                    <a href="#" class="editicons">
+                                    <a href="#" class="editicons" class="editicons" data-toggle="modal" data-target="#categoria-{{ $categoria->id }}">
                                         <i class="fa fa-pencil fa-fx"></i>
                                     </a>
-                                    <a href="#" class="editicons">
+                                    <a href="/categoria/{{ $categoria->id }}" class="editicons" data-method="delete" data-token="{{csrf_token()}}" data-confirm="Tem certeza que deseja apagar {{ $categoria->nome }} e todos os seus lanches?">
                                         <i class="fa fa-trash fa-fx"></i>
                                     </a>
                                 </div>
-                                <img src="/icones/{{ $categoria->icone }}" alt="{{ $categoria->nome }}">
+                                <img src="/{{ $categoria->icone }}" alt="{{ $categoria->nome }}">
                                 <h1>{{ $categoria->nome }}</h1>
                             </div>
                         </div>
@@ -218,10 +218,142 @@
                                     {{--/MODAL--}}
                     </div>
         </section>
+        {{--MODAL--}}
+        <div class="modal fade" id="categoria-{{ $categoria->id }}" tabindex="-1" role="dialog">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            Editar {{ $categoria->nome }}
+                        </h4>
+                    </div>
+                    <!-- Modal Body -->
+                    <form class="form-horizontal" role="form" method="POST" action="/categoria/{{ $categoria->id }}" enctype="multipart/form-data">
+                        {{ method_field('PATCH') }}
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">Nome</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="nome" value="{{ $categoria->nome }}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">Substituir Ícone</label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="icone"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">Substituir Foto Grande</label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="fotol"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">Substituir Foto Média</label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="fotom"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">Substituir Foto Pequena</label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="fotos"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal Footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">
+                                Fechar
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{--/MODAL--}}
     @endforeach
-    <a href="#">
+    <a href="#" data-toggle="modal" data-target="#novacategoria">
         <div class="admin">
             <i class="fa fa-plus-circle"></i>
         </div>
     </a>
+    {{--MODAL--}}
+    <div class="modal fade" id="novacategoria" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Nova Categoria
+                    </h4>
+                </div>
+                <!-- Modal Body -->
+                <form class="form-horizontal" role="form" method="POST" action="/categoria" enctype="multipart/form-data">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">Nome</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="nome" value=""/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">Ícone</label>
+                            <div class="col-sm-10">
+                                <input type="file" name="icone"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">Foto Grande</label>
+                            <div class="col-sm-10">
+                                <input type="file" name="fotol"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">Foto Média</label>
+                            <div class="col-sm-10">
+                                <input type="file" name="fotom"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">Foto Pequena</label>
+                            <div class="col-sm-10">
+                                <input type="file" name="fotos"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">
+                            Fechar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{--/MODAL--}}
 @stop
